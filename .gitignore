@@ -1,0 +1,66 @@
+# =============================================================================
+# Git 忽略规则
+# =============================================================================
+
+# ---------- 前端 ----------
+# npm 依赖（1.3 万多个文件，绝对不要提交）
+node_modules/
+# 构建产物
+dist/
+.vite/
+*.local
+.DS_Store
+
+# ---------- 后端 Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv/
+
+# ---------- 环境变量（含数据库密码等敏感信息） ----------
+.env
+.env.local
+.env.*.local
+
+# ---------- 运行时数据 ----------
+# Chroma 向量库（体积随文档增长，且可重新生成）
+server/chroma_db/*
+!server/chroma_db/README.md
+
+# 上传的文档（用户数据，不入库）
+server/uploads/*
+!server/uploads/README.md
+
+# 日志
+*.log
+logs/
+
+# ---------- IDE ----------
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ---------- 操作系统 ----------
+Thumbs.db
+Desktop.ini

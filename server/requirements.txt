@@ -1,0 +1,36 @@
+# ============================================================
+# 企业知识库问答系统 - 后端依赖清单
+# 安装命令：pip install -r requirements.txt
+# 建议使用 Python 3.10 ~ 3.11
+# ============================================================
+
+# ---------- Web 框架 ----------
+Flask==3.0.3                # 轻量级 Web 框架
+Flask-Cors==4.0.1           # 解决前后端分离的跨域问题
+Flask-SQLAlchemy==3.1.1     # Flask 的 ORM 扩展，用于操作 MySQL
+
+# ---------- 数据库 ----------
+PyMySQL==1.1.1              # 纯 Python 实现的 MySQL 驱动
+cryptography==42.0.8        # PyMySQL 连接 MySQL8 的 caching_sha2_password 认证需要
+
+# ---------- 认证与安全 ----------
+PyJWT==2.9.0                # 生成 / 解析登录令牌（Token）
+# 密码加密使用 Python 内置 hashlib.md5，无需额外依赖
+
+# ---------- LangChain RAG 核心 ----------
+langchain==0.3.7                    # LangChain 核心库
+langchain-core==0.3.15              # LangChain 核心抽象（Prompt、Runnable 等）
+langchain-community==0.3.5          # 社区集成（PDF/Word 等文档加载器）
+langchain-text-splitters==0.3.2     # 文本切分器（把长文档切成小块）
+langchain-ollama==0.2.0             # Ollama 大模型 / 嵌入模型集成
+langchain-chroma==0.1.4             # Chroma 向量数据库集成
+chromadb==0.5.18                    # Chroma 向量数据库本体
+
+# ---------- 文档解析 ----------
+pypdf==5.0.1                # 解析 PDF 文档
+docx2txt==0.8               # 解析 Word(.docx) 文档
+unstructured==0.15.13       # LangChain 部分加载器的底层依赖
+markdown==3.7               # 解析 Markdown 文档
+
+# ---------- 工具库 ----------
+python-dotenv==1.0.1        # 读取 .env 配置文件
