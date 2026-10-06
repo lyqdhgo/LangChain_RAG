@@ -1,7 +1,26 @@
-# 企业知识库问答系统（LangChain + RAG）
+<div align="center">
+
+# 🏢 企业知识库问答系统 · LangChain + RAG
+
+**一套完整可跑的企业内部知识库问答 Agent：检索 → 增强 → 生成，含管理员后台**
+
+[![Python](https://img.shields.io/badge/Python-3.10%20~%203.11-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-3-000000?style=flat-square&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Vue 3](https://img.shields.io/badge/Vue%203-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white)](https://vuejs.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?style=flat-square&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Chroma](https://img.shields.io/badge/向量库-Chroma-FF6B6B?style=flat-square)](https://www.trychroma.com/)
+[![Ollama](https://img.shields.io/badge/本地模型-Ollama%20qwen3-000000?style=flat-square&logo=ollama&logoColor=white)](https://ollama.com/)
+
+[技术栈](#一技术栈) · [目录结构](#二目录结构) · [RAG 完整链路](#三rag-完整链路本项目核心) · [快速开始](#四快速开始) · [测试账号](#五测试账号) · [常见问题](#七常见问题)
+
+</div>
+
+---
 
 一个基于 **LangChain** 的 RAG（检索增强生成）企业内部知识库问答 Agent 系统。
 项目定位为 **入门学习**，代码结构清晰、中文注释完整，适合用来理解 RAG 的完整链路。
+
+> **完全本地化**：对话模型（`qwen3:8b`）与嵌入模型（`qwen3-embedding:4b`）都跑在本地 Ollama 上，文档不出内网。
 
 ---
 
@@ -71,6 +90,29 @@ LangChain_RAG/
 ## 三、RAG 完整链路（本项目核心）
 
 理解这条链路，就理解了 RAG。对应代码在 `server/rag/` 与 `server/routes/kb_routes.py`、`chat_routes.py`。
+
+```mermaid
+flowchart TB
+    subgraph offline["离线链路 · 上传文档时执行一次"]
+        A([上传 PDF / Word / TXT / MD / CSV]) --> B[保存到 uploads/]
+        B --> C[记录 kb_document<br/>status=1 向量化中]
+        C --> D[document_loader<br/>解析 + RecursiveCharacterTextSplitter 切分]
+        D --> E[embeddings<br/>qwen3-embedding:4b 向量化]
+        E --> F[(Chroma<br/>collection = kb_id)]
+        F --> G[status=2 已完成<br/>记录 chunk_count]
+    end
+
+    subgraph online["在线链路 · 用户每次提问时执行"]
+        H([用户提问]) --> I[similarity_search<br/>余弦距离召回 TopK]
+        I --> J{相关性达标?}
+        J -- 否 --> K([知识库中暂未找到相关内容<br/>不调用大模型])
+        J -- 是 --> L[format_context<br/>拼成参考资料]
+        L --> M[+ 最近 6 条历史消息]
+        M --> N[qa_chain · LCEL<br/>prompt → qwen3:8b → 输出解析]
+        N --> O([回答 + 引用来源 + 耗时])
+        O -.落库.-> P[(chat_message)]
+    end
+```
 
 ### 1. 离线链路（上传文档时执行一次）
 
