@@ -11,6 +11,7 @@
 [![Chroma](https://img.shields.io/badge/向量库-Chroma-FF6B6B?style=flat-square)](https://www.trychroma.com/)
 [![Ollama](https://img.shields.io/badge/本地模型-Ollama%20qwen3-000000?style=flat-square&logo=ollama&logoColor=white)](https://ollama.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-3DA639?style=flat-square)](./LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/lyqdhgo/LangChain_RAG/ci.yml?style=flat-square&label=CI)](https://github.com/lyqdhgo/LangChain_RAG/actions/workflows/ci.yml)
 
 [技术栈](#一技术栈) · [目录结构](#二目录结构) · [RAG 完整链路](#三rag-完整链路本项目核心) · [快速开始](#四快速开始) · [测试账号](#五测试账号) · [常见问题](#七常见问题)
 
